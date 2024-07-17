@@ -17,51 +17,63 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: '16'
 
       - name: Check if main-dev directory exists
         id: check_dir
         run: |
           if [ -d "applications/frontends/main-dev" ]; then
             echo "main-dev directory found"
-            echo "::set-output name=exists::true"
+            echo "exists=true" >> $GITHUB_ENV
           else
             echo "main-dev directory not found"
-            echo "::set-output name=exists::false"
+            echo "exists=false" >> $GITHUB_ENV
           fi
-
       - name: Install dependencies
-        if: steps.check_dir.outputs.exists == 'true'
+        if: env.exists == 'true'
         run: |
           cd applications/frontends/main-dev
           npm install --only=dev
 
       - name: Run ESLint
-        if: steps.check_dir.outputs.exists == 'true'
+        if: env.exists == 'true'
         run: |
           cd applications/frontends/main-dev
           npm run lint
         continue-on-error: true
 
-      - name: Set Prettier Check Result
-        if: steps.check_dir.outputs.exists == 'true'
-        run: |
-          if cd applications/frontends/main-dev && npm run prettier:check; then
-            echo "::set-output name=prettier_check_passed::true"
-          else
-            echo "::set-output name=prettier_check_passed::false"
-          fi
+      - name: Run Prettier Check
+        id: prettier_check
+        if: env.exists == 'true'
         continue-on-error: true
-        
+        run: |
+          cd applications/frontends/main-dev
+          npm run prettier:check || true
+
+      - name: Set Prettier Check Result
+        if: env.exists == 'true'
+        run: |
+          cd applications/frontends/main-dev
+          npm run prettier:check
+        continue-on-error: true
+        env:
+          GITHUB_ENV: $GITHUB_ENV
+        run: |
+          if npm run prettier:check; then
+            echo "prettier_check_passed=true" >> $GITHUB_ENV
+          else
+            echo "prettier_check_passed=false" >> $GITHUB_ENV
+          fi
+
       - name: Run Prettier Fix
-        if: steps.set_prettier_check_result.outputs.prettier_check_passed == 'false' && steps.check_dir.outputs.exists == 'true'
+        if: env.prettier_check_passed == 'false' && env.exists == 'true'
         run: |
           cd applications/frontends/main-dev
           npm run format
         continue-on-error: true
 
       - name: Commit changes
-        if: steps.set_prettier_check_result.outputs.prettier_check_passed == 'false' && steps.check_dir.outputs.exists == 'true'
+        if: env.prettier_check_passed == 'false' && env.exists == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

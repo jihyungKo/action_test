@@ -47,8 +47,9 @@ jobs:
         if: env.exists == 'true'
         continue-on-error: true
         run: |
-          cd applications/frontends/main-dev
-          npm run prettier:check || true
+          # cd applications/frontends/main-dev
+          # npm run prettier:check || true
+          exit 1
 
       - name: Set Prettier Check Result
         if: env.exists == 'true'

@@ -69,6 +69,6 @@ jobs:
           git add .
           git commit -m 'Apply ESLint and Prettier fixes' || echo 'No changes to commit'
           git pull --rebase origin ${{ github.head_ref }} || (echo "Rebase failed due to conflicts" && exit 1)
-          git push origin HEAD:${{ github.head_ref }}
+          git push origin HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

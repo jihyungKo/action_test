@@ -17,7 +17,7 @@ function sayHello(name) {
 sayHello("World");
 
 greet("World");
-console.log("3")
+console.log("3");
 
 console.log("1");
 console.log("2");

@@ -3,6 +3,20 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+function sayHello(name) { console.log('Hello, ' + name); }
+
+sayHello('World');
+
+var unusedVar = 42;
+
+function greet(name) {
+  if(name == 'World') {
+    console.log('Hello, ' + name);
+  }
+}
+
+greet('World');
+
 function App() {
   const [count, setCount] = useState(0)
 

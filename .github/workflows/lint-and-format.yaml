@@ -52,13 +52,11 @@ jobs:
 
       - name: Set Prettier Check Result
         if: env.exists == 'true'
-        run: |
-          cd applications/frontends/main-dev
-          npm run prettier:check
         continue-on-error: true
         env:
           GITHUB_ENV: $GITHUB_ENV
         run: |
+          cd applications/frontends/main-dev
           if npm run prettier:check; then
             echo "prettier_check_passed=true" >> $GITHUB_ENV
           else

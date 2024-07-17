@@ -1,24 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
-function sayHello(name) { console.log('Hello, ' + name); }
+function sayHello(name) {
+  console.log("Hello, " + name);
+}
 
-sayHello('World');
+sayHello("World");
 
-var unusedVar = 42;
+const unusedVar = 42;
 
 function greet(name) {
-  if(name == 'World') {
-    console.log('Hello, ' + name);
+  if (name == "World") {
+    console.log("Hello, " + name);
   }
 }
 
-greet('World');
+greet("World");
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
@@ -43,7 +45,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

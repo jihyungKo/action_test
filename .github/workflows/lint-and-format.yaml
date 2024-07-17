@@ -64,7 +64,7 @@ jobs:
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add .
           git commit -m 'Apply ESLint and Prettier fixes' || echo 'No changes to commit'
-          git pull origin ${{ github.head_ref }} --rebase
+          git pull --rebase origin ${{ github.head_ref }} || (echo "Rebase failed due to conflicts" && exit 1)
           git push origin HEAD:${{ github.head_ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

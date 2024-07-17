@@ -1,7 +1,11 @@
 name: Lint and Format
 
 on:
+  # pull_request:
+  #   branches:
+  #     - main
   pull_request:
+    types: [closed]
     branches:
       - main
 

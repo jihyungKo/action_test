@@ -19,6 +19,7 @@ sayHello("World");
 greet("World");
 
 console.log("1");
+console.log("2");
 
 function App() {
   const [count, setCount] = useState(0);

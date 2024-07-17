@@ -30,13 +30,6 @@ jobs:
             echo "::set-output name=exists::false"
           fi
 
-      - name: Pull latest changes
-        if: steps.check_dir.outputs.exists == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git pull origin ${{ github.head_ref }}
-
       - name: Install dependencies
         if: steps.check_dir.outputs.exists == 'true'
         run: |

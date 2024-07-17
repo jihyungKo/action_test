@@ -35,7 +35,11 @@ jobs:
             echo "main-dev directory not found"
             echo "::set-output name=exists::false"
           fi
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> d93c923 (Initial commit with GitHub Actions workflow)
       - name: Install dependencies
         if: steps.check_dir.outputs.exists == 'true'
         run: |

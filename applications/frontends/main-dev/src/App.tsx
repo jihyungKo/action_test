@@ -2,6 +2,19 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+var unusedVar = 42;
+
+function greet(name) {
+  if(name == 'World') {
+    console.log('Hello, ' + name);
+  }
+}
+
+function sayHello(name) { console.log('Hello, ' + name); }
+
+sayHello('World');
+
+greet('World');
 
 function App() {
   const [count, setCount] = useState(0)

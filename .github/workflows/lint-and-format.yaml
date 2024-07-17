@@ -52,14 +52,14 @@ jobs:
         continue-on-error: true
 
       - name: Run Prettier Fix
-        if: failure() && steps.check_dir.outputs.exists == 'true'
+        if: steps.prettier_check.conclusion == 'failure' && steps.check_dir.outputs.exists == 'true'
         run: |
           cd applications/frontends/main-dev
           npm run format
         continue-on-error: true
 
       - name: Commit changes
-        if: failure() && steps.check_dir.outputs.exists == 'true'
+        if: steps.prettier_check.conclusion == 'failure' && steps.check_dir.outputs.exists == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

@@ -43,22 +43,25 @@ jobs:
           npm run lint
         continue-on-error: true
 
-      - name: Run Prettier Check
-        id: prettier_check
+      - name: Set Prettier Check Result
         if: steps.check_dir.outputs.exists == 'true'
         run: |
-          cd applications/frontends/main-dev
-          npm run prettier:check || echo "Prettier check failed" && exit 1
-
+          if cd applications/frontends/main-dev && npm run prettier:check; then
+            echo "::set-output name=prettier_check_passed::true"
+          else
+            echo "::set-output name=prettier_check_passed::false"
+          fi
+        continue-on-error: true
+        
       - name: Run Prettier Fix
-        if: always() && steps.prettier_check.outcome == 'failure' && steps.check_dir.outputs.exists == 'true'
+        if: steps.set_prettier_check_result.outputs.prettier_check_passed == 'false' && steps.check_dir.outputs.exists == 'true'
         run: |
           cd applications/frontends/main-dev
           npm run format
         continue-on-error: true
 
       - name: Commit changes
-        if: always() && steps.prettier_check.outcome == 'failure' && steps.check_dir.outputs.exists == 'true'
+        if: steps.set_prettier_check_result.outputs.prettier_check_passed == 'false' && steps.check_dir.outputs.exists == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
